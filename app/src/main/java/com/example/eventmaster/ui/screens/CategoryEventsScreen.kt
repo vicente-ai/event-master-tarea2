@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
+import com.example.eventmaster.ui.theme.EventPurple
+import com.example.eventmaster.ui.theme.OnPrimaryColor
 
 data class Event(
     val name: String,
@@ -38,8 +40,8 @@ fun CategoryEventsScreen(categoryName: String, onBack: () -> Unit) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { /* TODO: Implement event registration */ },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = EventPurple,
+                contentColor = OnPrimaryColor,
                 shape = RoundedCornerShape(50)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add Event")
@@ -59,8 +61,8 @@ fun CategoryEventsScreen(categoryName: String, onBack: () -> Unit) {
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                     shape = RoundedCornerShape(4.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = EventPurple,
+                        contentColor = OnPrimaryColor
                     ),
                     modifier = Modifier.align(Alignment.TopStart).height(36.dp)
                 ) {
@@ -71,14 +73,14 @@ fun CategoryEventsScreen(categoryName: String, onBack: () -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Surface(
-                color = MaterialTheme.colorScheme.primary,
+                color = EventPurple,
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier.padding(bottom = 12.dp)
             ) {
                 Text(
                     text = categoryName,
                     modifier = Modifier.padding(horizontal = 32.dp, vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = OnPrimaryColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 22.sp
                 )
@@ -110,7 +112,7 @@ fun ExpandableEventItem(event: Event) {
     var expanded by remember { mutableStateOf(false) }
 
     Surface(
-        color = MaterialTheme.colorScheme.primary,
+        color = EventPurple,
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth(0.9f)
@@ -123,7 +125,7 @@ fun ExpandableEventItem(event: Event) {
         ) {
             Text(
                 text = event.name,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = OnPrimaryColor,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
@@ -134,17 +136,17 @@ fun ExpandableEventItem(event: Event) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     HorizontalDivider(
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f),
+                        color = OnPrimaryColor.copy(alpha = 0.2f),
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                     Text(
                         text = "Categoría: ${event.category}",
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = OnPrimaryColor,
                         fontSize = 14.sp
                     )
                     Text(
                         text = "Fecha: ${event.date}",
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = OnPrimaryColor,
                         fontSize = 14.sp
                     )
                 }

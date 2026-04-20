@@ -1,5 +1,6 @@
 package com.example.eventmaster.ui.theme
 
+import androidx.compose.material3.CardColors
 import androidx.compose.ui.graphics.Color
 
 val AppBackground = Color(0xFF2D144B) // Morado profundo menos chillón
