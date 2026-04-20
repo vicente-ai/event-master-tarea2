@@ -11,21 +11,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
+import com.example.eventmaster.data.model.Category
 
 @Composable
-fun HomeScreen(onCategoryClick: (String) -> Unit) {
-    val categories = listOf("Música", "Deportes", "Tecnología")
-
+fun HomeScreen(
+    categories: List<Category>,
+    onCategoryClick: (String) -> Unit,
+    onAddCategoryClick: () -> Unit
+) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /* TODO: Implement category creation */ },
+                onClick = onAddCategoryClick,
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)
@@ -58,7 +60,7 @@ fun HomeScreen(onCategoryClick: (String) -> Unit) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
                 contentDescription = "Logo",
-                modifier = Modifier.size(180.dp) // Enlarged logo
+                modifier = Modifier.size(180.dp)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -83,7 +85,7 @@ fun HomeScreen(onCategoryClick: (String) -> Unit) {
             ) {
                 items(categories) { category ->
                     Button(
-                        onClick = { onCategoryClick(category) },
+                        onClick = { onCategoryClick(category.nombre) },
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                             .height(52.dp),
@@ -93,7 +95,7 @@ fun HomeScreen(onCategoryClick: (String) -> Unit) {
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text(text = category, fontWeight = FontWeight.Medium)
+                        Text(text = category.nombre, fontWeight = FontWeight.Medium)
                     }
                 }
             }

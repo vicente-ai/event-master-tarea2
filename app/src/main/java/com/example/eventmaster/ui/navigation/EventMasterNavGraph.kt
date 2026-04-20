@@ -9,10 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.eventmaster.data.model.Category
 import com.example.eventmaster.data.model.Event
-import com.example.eventmaster.ui.screens.AddCategoryScreen
-import com.example.eventmaster.ui.screens.AddEventScreen
-import com.example.eventmaster.ui.screens.EventDetailScreen
-import com.example.eventmaster.ui.screens.EventListScreen
+import com.example.eventmaster.ui.screens.*
 
 @Composable
 fun EventMasterNavGraph(
@@ -25,17 +22,36 @@ fun EventMasterNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.EventList.route,
+        startDestination = Screen.Home.route,
         modifier = modifier
     ) {
-        composable(Screen.EventList.route) {
-            EventListScreen(
-                events = events,
-                onEventClick = { event ->
-                    navController.navigate(Screen.EventDetail.createRoute(event.id))
+        composable(Screen.Home.route) {
+            HomeScreen(
+                categories = categories,
+                onCategoryClick = { categoryName ->
+                    navController.navigate(Screen.CategoryEvents.createRoute(categoryName))
+                },
+                onAddCategoryClick = {
+                    navController.navigate(Screen.AddCategory.route)
                 }
             )
         }
+        
+        composable(
+            route = Screen.CategoryEvents.route,
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
+            CategoryEventsScreen(
+                categoryName = categoryName,
+                events = events.filter { it.categoria == categoryName },
+                onBack = { navController.popBackStack() },
+                onAddEventClick = {
+                    navController.navigate(Screen.AddEvent.route)
+                }
+            )
+        }
+
         composable(
             route = Screen.EventDetail.route,
             arguments = listOf(navArgument("eventId") { type = NavType.IntType })
@@ -44,6 +60,7 @@ fun EventMasterNavGraph(
             val event = events.find { it.id == eventId }
             EventDetailScreen(event = event)
         }
+
         composable(Screen.AddEvent.route) {
             AddEventScreen(
                 categories = categories,
@@ -53,6 +70,7 @@ fun EventMasterNavGraph(
                 }
             )
         }
+
         composable(Screen.AddCategory.route) {
             AddCategoryScreen(
                 onCategoryAdded = {
