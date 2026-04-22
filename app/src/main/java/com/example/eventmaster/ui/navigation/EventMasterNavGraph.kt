@@ -44,8 +44,8 @@ fun EventMasterNavGraph(
                 categoryName = categoryName,
                 viewModel = eventViewModel,
                 onBack = { navController.popBackStack() },
-                onAddEventClick = {
-                    navController.navigate(Screen.AddEvent.route)
+                onAddEventClick = { selectedCategory ->
+                    navController.navigate(Screen.AddEvent.createRoute(selectedCategory))
                 }
             )
         }
@@ -57,9 +57,14 @@ fun EventMasterNavGraph(
             )
         }
 
-        composable(Screen.AddEvent.route) {
+        composable(
+            route = Screen.AddEvent.route,
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
             AddEventScreen(
                 viewModel = eventViewModel,
+                categoryName = categoryName,
                 onBack = { navController.popBackStack() }
             )
         }

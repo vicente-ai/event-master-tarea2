@@ -26,14 +26,14 @@ fun CategoryEventsScreen(
     categoryName: String,
     viewModel: EventViewModel,
     onBack: () -> Unit,
-    onAddEventClick: () -> Unit
+    onAddEventClick: (String) -> Unit
 ) {
     val events = viewModel.getEventsByCategory(categoryName)
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onAddEventClick,
+                onClick = { onAddEventClick(categoryName) },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)
@@ -134,7 +134,7 @@ fun ExpandableEventItem(event: Event) {
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                     Text(
-                        text = "Categoría: ${event.category}",
+                        text = "Tipo: ${event.type}",
                         color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 14.sp
                     )

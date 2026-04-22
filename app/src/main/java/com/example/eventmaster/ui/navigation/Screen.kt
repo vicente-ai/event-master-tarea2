@@ -8,6 +8,8 @@ sealed class Screen(val route: String) {
     object EventDetail : Screen("event_detail/{eventId}") {
         fun createRoute(eventId: Int) = "event_detail/$eventId"
     }
-    object AddEvent : Screen("add_event")
+    object AddEvent : Screen("add_event/{categoryName}") {
+        fun createRoute(categoryName: String) = "add_event/$categoryName"
+    }
     object AddCategory : Screen("add_category")
 }

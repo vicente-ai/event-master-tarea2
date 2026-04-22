@@ -10,8 +10,8 @@
     <string name="event_fecha">Fecha</string>
     <string name="save_button">GUARDAR</string>
     <string name="error_required">Campo vacío no permitido</string>
-    <string name="tipo_concierto">conciertos</string>
-    <string name="tipo_conferencia">conferencias</string>
-    <string name="tipo_taller">talleres</string>
+    <string name="tipo_concierto">Conciertos</string>
+    <string name="tipo_conferencia">Conferencias</string>
+    <string name="tipo_taller">Talleres</string>
     <string name="select_option">Seleccionar opción</string>
 </resources>

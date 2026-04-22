@@ -56,8 +56,8 @@ fun EventMasterApp() {
                 categoryName = categoryName,
                 viewModel = eventViewModel,
                 onBack = { navController.popBackStack() },
-                onAddEventClick = {
-                    navController.navigate("add_event")
+                onAddEventClick = { selectedCategory ->
+                    navController.navigate("add_event/$selectedCategory")
                 }
             )
         }
@@ -67,9 +67,14 @@ fun EventMasterApp() {
                 onBack = { navController.popBackStack() }
             )
         }
-        composable("add_event") {
+        composable(
+            route = "add_event/{categoryName}",
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
             AddEventScreen(
                 viewModel = eventViewModel,
+                categoryName = categoryName,
                 onBack = { navController.popBackStack() }
             )
         }

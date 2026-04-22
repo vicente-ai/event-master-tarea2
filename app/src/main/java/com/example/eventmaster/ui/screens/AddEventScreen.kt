@@ -9,18 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.eventmaster.ui.theme.EventPurple
+import com.example.eventmaster.ui.theme.OnPrimaryColor
+import com.example.eventmaster.ui.theme.AppBackground
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
     viewModel: EventViewModel,
+    categoryName: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var nombre by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("") }
-    var selectedCategory by remember { mutableStateOf(viewModel.categories.firstOrNull() ?: "") }
+    var selectedType by remember { mutableStateOf(viewModel.eventTypes.firstOrNull() ?: "") }
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
@@ -51,7 +55,7 @@ fun AddEventScreen(
             Text(
                 text = "Nuevo Evento",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = AppBackground,
                 fontWeight = FontWeight.Bold
             )
 
@@ -70,28 +74,51 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            OutlinedTextField(
+                value = categoryName,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Categoría") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedTextField(
-                    value = selectedCategory,
+                    value = selectedType,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Categoría") },
+                    label = { Text("Tipo") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
+                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                        focusedLabelColor = MaterialTheme.colorScheme.onBackground,
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onBackground
+                    )
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
+                    containerColor = MaterialTheme.colorScheme.surface
                 ) {
-                    viewModel.categories.forEach { category ->
+                    viewModel.eventTypes.forEach { type ->
                         DropdownMenuItem(
-                            text = { Text(category) },
+                            text = { Text(type, color = MaterialTheme.colorScheme.onSurface) },
                             onClick = {
-                                selectedCategory = category
+                                selectedType = type
                                 expanded = false
                             }
                         )
@@ -116,15 +143,15 @@ fun AddEventScreen(
 
             Button(
                 onClick = {
-                    if (nombre.isNotBlank() && selectedCategory.isNotBlank() && fecha.isNotBlank()) {
-                        viewModel.addEvent(nombre, selectedCategory, fecha)
+                    if (nombre.isNotBlank() && selectedType.isNotBlank() && fecha.isNotBlank()) {
+                        viewModel.addEvent(nombre, categoryName, selectedType, fecha)
                         onBack()
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = EventPurple,
+                    contentColor = OnPrimaryColor
                 )
             ) {
                 Text("Guardar Evento")

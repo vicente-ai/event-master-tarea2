@@ -6,19 +6,21 @@ import androidx.lifecycle.ViewModel
 data class Event(
     val name: String,
     val category: String,
+    val type: String,
     val date: String
 )
 
 class EventViewModel : ViewModel() {
     // Lista de categorías reactiva
     val categories = mutableStateListOf("Música", "Deportes", "Tecnología")
+    val eventTypes = listOf("Concierto", "Conferencia", "Taller")
 
     // Lista de eventos reactiva
     val events = mutableStateListOf(
-        Event("Evento 1", "Música", "15 Oct 2024"),
-        Event("Evento 2", "Música", "22 Nov 2024"),
-        Event("Partido Final", "Deportes", "10 Dic 2024"),
-        Event("Conferencia IA", "Tecnología", "05 Ene 2025")
+        Event("Evento 1", "Música", "Concierto", "15 Oct 2024"),
+        Event("Evento 2", "Música", "Concierto", "22 Nov 2024"),
+        Event("Partido Final", "Deportes", "Taller", "10 Dic 2024"),
+        Event("Conferencia IA", "Tecnología", "Conferencia", "05 Ene 2025")
     )
     
     fun addCategory(name: String) {
@@ -27,9 +29,9 @@ class EventViewModel : ViewModel() {
         }
     }
 
-    fun addEvent(name: String, category: String, date: String) {
-        if (name.isNotBlank() && category.isNotBlank() && date.isNotBlank()) {
-            events.add(Event(name, category, date))
+    fun addEvent(name: String, category: String, type: String, date: String) {
+        if (name.isNotBlank() && category.isNotBlank() && type.isNotBlank() && date.isNotBlank()) {
+            events.add(Event(name, category, type, date))
         }
     }
 
