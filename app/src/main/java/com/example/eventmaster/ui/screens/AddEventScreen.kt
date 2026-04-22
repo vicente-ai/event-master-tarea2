@@ -23,6 +23,7 @@ import com.example.eventmaster.ui.components.ValidatedTextField
 @Composable
 fun AddEventScreen(
     categories: List<Category>,
+    preselectedCategory: String = "",
     onEventAdded: (Event) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -38,7 +39,7 @@ fun AddEventScreen(
     var selectedTipo by remember { mutableStateOf("") }
 
     var categoriaExpanded by remember { mutableStateOf(false) }
-    var selectedCategoria by remember { mutableStateOf("") }
+    var selectedCategoria by remember { mutableStateOf(preselectedCategory) }
 
     var nombreError by remember { mutableStateOf(false) }
     var fechaError by remember { mutableStateOf(false) }
@@ -75,18 +76,28 @@ fun AddEventScreen(
             isError = tipoError
         )
 
-        ValidatedDropdown(
-            value = selectedCategoria,
-            onValueChange = { 
-                selectedCategoria = it
-                categoriaError = false
-            },
-            labelRes = R.string.event_categoria,
-            options = categories.map { it.nombre },
-            expanded = categoriaExpanded,
-            onExpandedChange = { categoriaExpanded = it },
-            isError = categoriaError
-        )
+        if (preselectedCategory.isBlank()) {
+            ValidatedDropdown(
+                value = selectedCategoria,
+                onValueChange = { 
+                    selectedCategoria = it
+                    categoriaError = false
+                },
+                labelRes = R.string.event_categoria,
+                options = categories.map { it.nombre },
+                expanded = categoriaExpanded,
+                onExpandedChange = { categoriaExpanded = it },
+                isError = categoriaError
+            )
+        } else {
+            ValidatedTextField(
+                value = selectedCategoria,
+                onValueChange = {},
+                labelRes = R.string.event_categoria,
+                isError = false,
+                enabled = false
+            )
+        }
 
         ValidatedTextField(
             value = fecha,
@@ -130,3 +141,4 @@ fun AddEventScreen(
         }
     }
 }
+
