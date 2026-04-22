@@ -20,6 +20,7 @@ fun ValidatedTextField(
     onValueChange: (String) -> Unit,
     labelRes: Int,
     isError: Boolean,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
@@ -27,6 +28,7 @@ fun ValidatedTextField(
         onValueChange = onValueChange,
         label = { Text(stringResource(labelRes)) },
         isError = isError,
+        enabled = enabled,
         supportingText = {
             if (isError) {
                 Text(stringResource(R.string.error_required))

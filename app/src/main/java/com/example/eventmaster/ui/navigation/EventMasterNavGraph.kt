@@ -2,24 +2,26 @@ package com.example.eventmaster.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.eventmaster.data.model.Category
-import com.example.eventmaster.data.model.Event
 import com.example.eventmaster.ui.screens.*
+import com.example.eventmaster.ui.viewmodel.EventViewModel
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun EventMasterNavGraph(
     navController: NavHostController,
-    categories: List<Category>,
-    events: List<Event>,
-    onEventAdded: (Event) -> Unit,
-    onCategoryAdded: (Category) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    eventViewModel: EventViewModel = viewModel()
 ) {
+    val categories = eventViewModel.categories
+    val events = eventViewModel.events
+
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
@@ -36,18 +38,21 @@ fun EventMasterNavGraph(
                 }
             )
         }
-        
+
         composable(
             route = Screen.CategoryEvents.route,
             arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
         ) { backStackEntry ->
-            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
+            val categoryName = URLDecoder.decode(
+                backStackEntry.arguments?.getString("categoryName") ?: "",
+                StandardCharsets.UTF_8.toString()
+            )
             CategoryEventsScreen(
                 categoryName = categoryName,
                 events = events.filter { it.categoria == categoryName },
                 onBack = { navController.popBackStack() },
                 onAddEventClick = {
-                    navController.navigate(Screen.AddEvent.route)
+                    navController.navigate(Screen.AddEvent.createRoute(categoryName))
                 }
             )
         }
@@ -61,11 +66,19 @@ fun EventMasterNavGraph(
             EventDetailScreen(event = event)
         }
 
-        composable(Screen.AddEvent.route) {
+        composable(
+            route = Screen.AddEvent.route,
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = URLDecoder.decode(
+                backStackEntry.arguments?.getString("categoryName") ?: "",
+                StandardCharsets.UTF_8.toString()
+            )
             AddEventScreen(
                 categories = categories,
+                preselectedCategory = categoryName,
                 onEventAdded = {
-                    onEventAdded(it)
+                    eventViewModel.addEvent(it)
                     navController.popBackStack()
                 }
             )
@@ -74,7 +87,7 @@ fun EventMasterNavGraph(
         composable(Screen.AddCategory.route) {
             AddCategoryScreen(
                 onCategoryAdded = {
-                    onCategoryAdded(it)
+                    eventViewModel.addCategory(it)
                     navController.popBackStack()
                 }
             )
