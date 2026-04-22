@@ -1,84 +1,100 @@
 package com.example.eventmaster.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.eventmaster.R
-import com.example.eventmaster.data.model.Category
-import com.example.eventmaster.ui.components.ValidatedTextField
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
 fun AddCategoryScreen(
-    onCategoryAdded: (Category) -> Unit,
+    viewModel: EventViewModel,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var nombre by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
-    
-    var nombreError by remember { mutableStateOf(false) }
-    var descripcionError by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.padding(16.dp)) {
-        Text(
-            text = stringResource(R.string.add_category_title),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        ValidatedTextField(
-            value = nombre,
-            onValueChange = { 
-                nombre = it
-                nombreError = it.isBlank()
-            },
-            labelRes = R.string.category_nombre,
-            isError = nombreError
-        )
-
-        ValidatedTextField(
-            value = descripcion,
-            onValueChange = { 
-                descripcion = it
-                descripcionError = it.isBlank()
-            },
-            labelRes = R.string.category_descripcion,
-            isError = descripcionError
-        )
-
-        Button(
-            onClick = {
-                val isNombreValid = nombre.isNotBlank()
-                val isDescValid = descripcion.isNotBlank()
-                
-                nombreError = !isNombreValid
-                descripcionError = !isDescValid
-
-                if (isNombreValid && isDescValid) {
-                    onCategoryAdded(
-                        Category(
-                            id = (0..10000).random(),
-                            nombre = nombre,
-                            descripcion = descripcion
-                        )
-                    )
-                }
-            },
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth()
+    Scaffold { paddingValues ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(stringResource(R.string.save_button))
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = onBack,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+                    shape = RoundedCornerShape(4.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier.align(Alignment.TopStart).height(36.dp)
+                ) {
+                    Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Nueva Categoría",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            OutlinedTextField(
+                value = nombre,
+                onValueChange = { nombre = it },
+                label = { Text("Nombre de la categoría") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = descripcion,
+                onValueChange = { descripcion = it },
+                label = { Text("Descripción") },
+                modifier = Modifier.fillMaxWidth(),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
+                )
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Button(
+                onClick = {
+                    if (nombre.isNotBlank()) {
+                        viewModel.addCategory(nombre)
+                        onBack()
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
+                Text("Guardar Categoría")
+            }
         }
     }
 }

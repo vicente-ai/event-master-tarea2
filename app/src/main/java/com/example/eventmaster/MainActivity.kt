@@ -4,18 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.eventmaster.data.model.Category
-import com.example.eventmaster.data.model.Event
-import com.example.eventmaster.ui.navigation.EventMasterNavGraph
+import androidx.navigation.navArgument
+import com.example.eventmaster.ui.screens.AddCategoryScreen
+import com.example.eventmaster.ui.screens.AddEventScreen
+import com.example.eventmaster.ui.screens.CategoryEventsScreen
+import com.example.eventmaster.ui.screens.HomeScreen
 import com.example.eventmaster.ui.theme.EventMasterTheme
+import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,40 +24,54 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EventMasterTheme {
-                val navController = rememberNavController()
-
-                var categories by remember {
-                    mutableStateOf(
-                        listOf(
-                            Category(1, "Música", "Eventos musicales"),
-                            Category(2, "Deportes", "Competencias físicas"),
-                            Category(3, "Tecnología", "Charlas de IT")
-                        )
-                    )
-                }
-
-                var events by remember {
-                    mutableStateOf(
-                        listOf(
-                            Event(1, "Concierto Rock", "conciertos", "Música", "2024-12-01")
-                        )
-                    )
-                }
-
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    EventMasterNavGraph(
-                        navController = navController,
-                        categories = categories,
-                        events = events,
-                        onEventAdded = { newEvent ->
-                            events = events + newEvent
-                        },
-                        onCategoryAdded = { newCategory ->
-                            categories = categories + newCategory
-                        }
-                    )
-                }
+                EventMasterApp()
             }
+        }
+    }
+}
+
+@Composable
+fun EventMasterApp() {
+    val navController = rememberNavController()
+    val eventViewModel: EventViewModel = viewModel()
+
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") {
+            HomeScreen(
+                viewModel = eventViewModel,
+                onCategoryClick = { categoryName ->
+                    navController.navigate("category/$categoryName")
+                },
+                onAddCategoryClick = {
+                    navController.navigate("add_category")
+                }
+            )
+        }
+        composable(
+            route = "category/{categoryName}",
+            arguments = listOf(navArgument("categoryName") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val categoryName = backStackEntry.arguments?.getString("categoryName") ?: ""
+            CategoryEventsScreen(
+                categoryName = categoryName,
+                viewModel = eventViewModel,
+                onBack = { navController.popBackStack() },
+                onAddEventClick = {
+                    navController.navigate("add_event")
+                }
+            )
+        }
+        composable("add_category") {
+            AddCategoryScreen(
+                viewModel = eventViewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("add_event") {
+            AddEventScreen(
+                viewModel = eventViewModel,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

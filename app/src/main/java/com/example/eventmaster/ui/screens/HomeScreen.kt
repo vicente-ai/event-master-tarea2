@@ -16,14 +16,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
-import com.example.eventmaster.data.model.Category
+import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
 fun HomeScreen(
-    categories: List<Category>,
+    viewModel: EventViewModel,
     onCategoryClick: (String) -> Unit,
     onAddCategoryClick: () -> Unit
 ) {
+    val categories = viewModel.categories
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -85,7 +87,7 @@ fun HomeScreen(
             ) {
                 items(categories) { category ->
                     Button(
-                        onClick = { onCategoryClick(category.nombre) },
+                        onClick = { onCategoryClick(category) },
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                             .height(52.dp),
@@ -95,7 +97,7 @@ fun HomeScreen(
                         ),
                         shape = RoundedCornerShape(8.dp)
                     ) {
-                        Text(text = category.nombre, fontWeight = FontWeight.Medium)
+                        Text(text = category, fontWeight = FontWeight.Medium)
                     }
                 }
             }

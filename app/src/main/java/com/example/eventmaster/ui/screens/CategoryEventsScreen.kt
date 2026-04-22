@@ -18,15 +18,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
-import com.example.eventmaster.data.model.Event
+import com.example.eventmaster.ui.viewmodel.Event
+import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
 fun CategoryEventsScreen(
     categoryName: String,
-    events: List<Event>,
+    viewModel: EventViewModel,
     onBack: () -> Unit,
     onAddEventClick: () -> Unit
 ) {
+    val events = viewModel.getEventsByCategory(categoryName)
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -115,7 +118,7 @@ fun ExpandableEventItem(event: Event) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = event.nombre,
+                text = event.name,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
@@ -131,12 +134,12 @@ fun ExpandableEventItem(event: Event) {
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                     Text(
-                        text = "Categoría: ${event.categoria}",
+                        text = "Categoría: ${event.category}",
                         color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 14.sp
                     )
                     Text(
-                        text = "Fecha: ${event.fecha}",
+                        text = "Fecha: ${event.date}",
                         color = MaterialTheme.colorScheme.onPrimary,
                         fontSize = 14.sp
                     )
