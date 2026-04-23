@@ -1,6 +1,5 @@
 package com.example.eventmaster.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
-import com.example.eventmaster.ui.viewmodel.Event
+import com.example.eventmaster.data.model.Event
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
@@ -26,7 +25,8 @@ fun CategoryEventsScreen(
     categoryName: String,
     viewModel: EventViewModel,
     onBack: () -> Unit,
-    onAddEventClick: (String) -> Unit
+    onAddEventClick: (String) -> Unit,
+    onEventDetailClick: (Int) -> Unit = {}
 ) {
     val events = viewModel.getEventsByCategory(categoryName)
 
@@ -94,7 +94,10 @@ fun CategoryEventsScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items(events) { event ->
-                    ExpandableEventItem(event)
+                    EventItem(
+                        event = event,
+                        onEventDetailClick = onEventDetailClick
+                    )
                 }
             }
         }
@@ -102,15 +105,16 @@ fun CategoryEventsScreen(
 }
 
 @Composable
-fun ExpandableEventItem(event: Event) {
-    var expanded by remember { mutableStateOf(false) }
-
+fun EventItem(
+    event: Event,
+    onEventDetailClick: (Int) -> Unit
+) {
     Surface(
         color = MaterialTheme.colorScheme.primary,
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth(0.9f)
-            .clickable { expanded = !expanded }
+            .clickable { onEventDetailClick(event.id) }
     ) {
         Column(
             modifier = Modifier
@@ -118,33 +122,11 @@ fun ExpandableEventItem(event: Event) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = event.name,
+                text = event.nombre,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp
             )
-
-            AnimatedVisibility(visible = expanded) {
-                Column(
-                    modifier = Modifier.padding(top = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f),
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
-                    Text(
-                        text = "Tipo: ${event.type}",
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        fontSize = 14.sp
-                    )
-                    Text(
-                        text = "Fecha: ${event.date}",
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        fontSize = 14.sp
-                    )
-                }
-            }
         }
     }
 }
