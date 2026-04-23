@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
+import com.example.eventmaster.ui.components.TitleBadge
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
@@ -45,19 +46,7 @@ fun HomeScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(8.dp),
-                modifier = Modifier.padding(bottom = 16.dp)
-            ) {
-                Text(
-                    text = "Event Master",
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
-                )
-            }
+            TitleBadge(text = "Event Master", fontSize = 24)
 
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),

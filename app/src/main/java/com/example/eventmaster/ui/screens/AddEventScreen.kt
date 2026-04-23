@@ -13,6 +13,8 @@ import com.example.eventmaster.ui.theme.EventPurple
 import com.example.eventmaster.ui.theme.OnPrimaryColor
 import com.example.eventmaster.ui.theme.AppBackground
 import com.example.eventmaster.ui.viewmodel.EventViewModel
+import com.example.eventmaster.ui.components.BackButton
+import com.example.eventmaster.ui.components.TitleBadge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,28 +38,15 @@ fun AddEventScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Button(
+                BackButton(
                     onClick = onBack,
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    modifier = Modifier.align(Alignment.TopStart).height(36.dp)
-                ) {
-                    Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                }
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "Nuevo Evento",
-                style = MaterialTheme.typography.headlineMedium,
-                color = AppBackground,
-                fontWeight = FontWeight.Bold
-            )
+            TitleBadge(text = "Nuevo Evento", fontSize = 20)
 
             Spacer(modifier = Modifier.height(24.dp))
 

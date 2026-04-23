@@ -2,16 +2,30 @@ package com.example.eventmaster.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.eventmaster.R
 
 @Composable
@@ -81,5 +95,63 @@ fun ValidatedDropdown(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun BackButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+        shape = RoundedCornerShape(4.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ),
+        modifier = modifier
+            .height(36.dp)
+    ) {
+        Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+    }
+}
+
+@Composable
+fun TitleBadge(
+    text: String,
+    modifier: Modifier = Modifier,
+    fontSize: Int = 24
+) {
+    Surface(
+        color = MaterialTheme.colorScheme.primary,
+        shape = RoundedCornerShape(8.dp),
+        modifier = modifier.padding(bottom = 16.dp)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+            color = MaterialTheme.colorScheme.onPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = fontSize.sp
+        )
+    }
+}
+
+@Composable
+fun AddActionButton(
+    onClick: () -> Unit,
+    contentDescription: String = "Agregar",
+    modifier: Modifier = Modifier
+) {
+    FloatingActionButton(
+        onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        shape = RoundedCornerShape(50),
+        modifier = modifier
+    ) {
+        Icon(Icons.Default.Add, contentDescription = contentDescription)
     }
 }

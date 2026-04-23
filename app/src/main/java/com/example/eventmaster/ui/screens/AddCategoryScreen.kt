@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import com.example.eventmaster.ui.components.BackButton
+import com.example.eventmaster.ui.components.TitleBadge
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
@@ -29,28 +31,15 @@ fun AddCategoryScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Button(
+                BackButton(
                     onClick = onBack,
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    modifier = Modifier.align(Alignment.TopStart).height(36.dp)
-                ) {
-                    Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                }
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "Nueva Categoría",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Bold
-            )
+            TitleBadge(text = "Nueva Categoría", fontSize = 20)
 
             Spacer(modifier = Modifier.height(24.dp))
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.example.eventmaster.data.model.Event
 import com.example.eventmaster.ui.theme.EventPurple
 import com.example.eventmaster.ui.theme.OnPrimaryColor
+import com.example.eventmaster.ui.components.BackButton
 
 @Composable
 fun EventDetailScreen(
@@ -50,18 +51,10 @@ fun EventDetailScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
-                Button(
+                BackButton(
                     onClick = onBack,
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
-                    shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    modifier = Modifier.align(Alignment.TopStart).height(36.dp)
-                ) {
-                    Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-                }
+                    modifier = Modifier.align(Alignment.TopStart)
+                )
             }
 
             Text(
