@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,7 +36,10 @@ fun HomeScreen(
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Category")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_category_desc)
+                )
             }
         }
     ) { paddingValues ->
@@ -46,11 +50,11 @@ fun HomeScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TitleBadge(text = "Event Master", fontSize = 24)
+            TitleBadge(text = stringResource(R.string.home_title), fontSize = 24)
 
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Logo",
+                contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.size(180.dp)
             )
 
@@ -62,7 +66,7 @@ fun HomeScreen(
                 modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 Text(
-                    text = "Categorías",
+                    text = stringResource(R.string.categories_label),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
                     color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 18.sp

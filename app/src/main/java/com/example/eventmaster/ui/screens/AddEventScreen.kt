@@ -6,9 +6,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.theme.EventPurple
 import com.example.eventmaster.ui.theme.OnPrimaryColor
 import com.example.eventmaster.ui.theme.AppBackground
@@ -46,14 +48,14 @@ fun AddEventScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TitleBadge(text = "Nuevo Evento", fontSize = 20)
+            TitleBadge(text = stringResource(R.string.new_event_title), fontSize = 20)
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it },
-                label = { Text("Nombre del evento") },
+                label = { Text(stringResource(R.string.event_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onBackground,
@@ -69,7 +71,7 @@ fun AddEventScreen(
                 value = categoryName,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Categoría") },
+                label = { Text(stringResource(R.string.event_categoria)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onBackground,
@@ -92,7 +94,7 @@ fun AddEventScreen(
                     value = selectedType,
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("Tipo") },
+                    label = { Text(stringResource(R.string.event_tipo)) },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -126,7 +128,7 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = fecha,
                 onValueChange = { fecha = it },
-                label = { Text("Fecha (ej: 12 Dic 2024)") },
+                label = { Text(stringResource(R.string.event_date_hint)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onBackground,
@@ -151,7 +153,7 @@ fun AddEventScreen(
                     contentColor = OnPrimaryColor
                 )
             ) {
-                Text("Guardar Evento")
+                Text(stringResource(R.string.save_event_button))
             }
         }
     }

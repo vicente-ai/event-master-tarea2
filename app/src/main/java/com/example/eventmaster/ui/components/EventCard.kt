@@ -1,6 +1,5 @@
 package com.example.eventmaster.ui.components
 
-import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.eventmaster.R
 import com.example.eventmaster.data.model.Event
 import com.example.eventmaster.ui.theme.EventPurple
 import com.example.eventmaster.ui.theme.OnPrimaryColor
@@ -49,7 +50,7 @@ fun EventCard(
                     color = OnPrimaryColor
                 )
                 Text(
-                    text = "${event.tipo} • ${event.categoria}",
+                    text = stringResource(R.string.event_info_format, event.tipo, event.categoria),
                     style = MaterialTheme.typography.bodySmall,
                     color = OnPrimaryColor
                 )

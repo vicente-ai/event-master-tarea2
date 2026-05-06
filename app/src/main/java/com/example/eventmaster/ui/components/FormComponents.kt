@@ -114,7 +114,11 @@ fun BackButton(
         modifier = modifier
             .height(36.dp)
     ) {
-        Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        Text(
+            text = stringResource(R.string.back_button),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }
 
@@ -142,7 +146,7 @@ fun TitleBadge(
 @Composable
 fun AddActionButton(
     onClick: () -> Unit,
-    contentDescription: String = "Agregar",
+    contentDescription: String = stringResource(R.string.action_add),
     modifier: Modifier = Modifier
 ) {
     FloatingActionButton(
