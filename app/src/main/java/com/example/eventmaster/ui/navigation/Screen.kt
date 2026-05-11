@@ -1,15 +1,20 @@
 package com.example.eventmaster.ui.navigation
 
-sealed class Screen(val route: String) {
-    object Home : Screen("home")
-    object CategoryEvents : Screen("category_events/{categoryName}") {
-        fun createRoute(categoryName: String) = "category_events/$categoryName"
-    }
-    object EventDetail : Screen("event_detail/{eventId}") {
-        fun createRoute(eventId: Int) = "event_detail/$eventId"
-    }
-    object AddEvent : Screen("add_event/{categoryName}") {
-        fun createRoute(categoryName: String) = "add_event/$categoryName"
-    }
-    object AddCategory : Screen("add_category")
+import kotlinx.serialization.Serializable
+
+sealed interface Screen {
+    @Serializable
+    object Home : Screen
+
+    @Serializable
+    data class CategoryEvents(val categoryName: String) : Screen
+
+    @Serializable
+    data class EventDetail(val eventId: Int) : Screen
+
+    @Serializable
+    data class AddEvent(val categoryName: String) : Screen
+
+    @Serializable
+    object AddCategory : Screen
 }

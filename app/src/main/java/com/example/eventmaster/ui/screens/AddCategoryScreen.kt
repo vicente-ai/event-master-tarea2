@@ -6,9 +6,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import com.example.eventmaster.R
 import com.example.eventmaster.ui.components.BackButton
 import com.example.eventmaster.ui.components.TitleBadge
 import com.example.eventmaster.ui.viewmodel.EventViewModel
@@ -39,14 +41,14 @@ fun AddCategoryScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TitleBadge(text = "Nueva Categoría", fontSize = 20)
+            TitleBadge(text = stringResource(R.string.new_category_title), fontSize = 20)
 
             Spacer(modifier = Modifier.height(24.dp))
 
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it },
-                label = { Text("Nombre de la categoría") },
+                label = { Text(stringResource(R.string.category_name_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onBackground,
@@ -59,7 +61,7 @@ fun AddCategoryScreen(
             OutlinedTextField(
                 value = descripcion,
                 onValueChange = { descripcion = it },
-                label = { Text("Descripción") },
+                label = { Text(stringResource(R.string.category_description_label)) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onBackground,
@@ -82,7 +84,7 @@ fun AddCategoryScreen(
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text("Guardar Categoría")
+                Text(stringResource(R.string.save_category_button))
             }
         }
     }
