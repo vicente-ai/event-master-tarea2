@@ -1,33 +1,57 @@
 package com.example.eventmaster.ui.viewmodel
 
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.eventmaster.data.local.database.EventMasterDatabase
+import com.example.eventmaster.data.model.Category
 import com.example.eventmaster.data.model.Event
+import com.example.eventmaster.data.repository.EventRepository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class EventViewModel : ViewModel() {
-    // Lista de categorías reactiva
-    val categories = mutableStateListOf("Música", "Deportes", "Tecnología")
+class EventViewModel(application: Application) : AndroidViewModel(application) {
+    private val repository = EventRepository(EventMasterDatabase.getInstance(application))
+
+    // Lista de categorías reactiva (nombres)
+    val categories = mutableStateListOf<String>()
     val eventTypes = listOf("Concierto", "Conferencia", "Taller")
 
     // Lista de eventos reactiva
-    val events = mutableStateListOf(
-        Event(1, "Evento 1", "Concierto", "Música", "15 Oct 2024"),
-        Event(2, "Evento 2", "Concierto", "Música", "22 Nov 2024"),
-        Event(3, "Partido Final", "Taller", "Deportes", "10 Dic 2024"),
-        Event(4, "Conferencia IA", "Conferencia", "Tecnología", "05 Ene 2025")
-    )
+    val events = mutableStateListOf<Event>()
 
-    private fun nextEventId(): Int = (events.maxOfOrNull { it.id } ?: 0) + 1
+    init {
+        // colectar categorías y eventos desde base de datos
+        viewModelScope.launch {
+            repository.getAllCategories().collect { list ->
+                categories.clear()
+                categories.addAll(list.map { it.nombre })
+            }
+        }
+
+        viewModelScope.launch {
+            repository.getAllEvents().collect { list ->
+                events.clear()
+                events.addAll(list)
+            }
+        }
+    }
 
     fun addCategory(name: String) {
-        if (name.isNotBlank() && !categories.contains(name)) {
-            categories.add(name)
+        if (name.isBlank()) return
+        viewModelScope.launch {
+            // evitar duplicados por nombre
+            if (!categories.contains(name)) {
+                repository.addCategory(Category(id = 0, nombre = name, descripcion = ""))
+            }
         }
     }
 
     fun addEvent(name: String, category: String, type: String, date: String) {
-        if (name.isNotBlank() && category.isNotBlank() && type.isNotBlank() && date.isNotBlank()) {
-            events.add(Event(nextEventId(), name, type, category, date))
+        if (name.isBlank() || category.isBlank() || type.isBlank() || date.isBlank()) return
+        viewModelScope.launch {
+            repository.addEvent(Event(id = 0, nombre = name, tipo = type, categoria = category, fecha = date))
         }
     }
 

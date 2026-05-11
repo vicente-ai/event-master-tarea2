@@ -1,18 +1,16 @@
 package com.example.eventmaster.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
 import com.example.eventmaster.R
 import com.example.eventmaster.ui.components.BackButton
 import com.example.eventmaster.ui.components.TitleBadge
+import com.example.eventmaster.ui.components.ValidatedTextField
 import com.example.eventmaster.ui.viewmodel.EventViewModel
 
 @Composable
@@ -23,6 +21,7 @@ fun AddCategoryScreen(
 ) {
     var nombre by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
+    var nombreError by remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
         Column(
@@ -45,15 +44,15 @@ fun AddCategoryScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            OutlinedTextField(
+            ValidatedTextField(
                 value = nombre,
-                onValueChange = { nombre = it },
-                label = { Text(stringResource(R.string.category_name_label)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
-                )
+                onValueChange = {
+                    nombre = it
+                    nombreError = false
+                },
+                labelRes = R.string.category_name_label,
+                isError = nombreError,
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -76,6 +75,8 @@ fun AddCategoryScreen(
                     if (nombre.isNotBlank()) {
                         viewModel.addCategory(nombre)
                         onBack()
+                    } else {
+                        nombreError = true
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
