@@ -9,20 +9,23 @@ import androidx.navigation.compose.rememberNavController
 import com.example.eventmaster.ui.navigation.EventMasterNavGraph
 import com.example.eventmaster.ui.theme.EventMasterTheme
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             EventMasterTheme {
-                EventMasterApp()
+                EventMasterMainScreen()
             }
         }
     }
 }
 
 @Composable
-fun EventMasterApp() {
+fun EventMasterMainScreen() {
     val navController = rememberNavController()
 
     EventMasterNavGraph(navController = navController)

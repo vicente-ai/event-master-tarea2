@@ -1,17 +1,35 @@
 <resources>
     <string name="app_name">EventMaster</string>
-    <string name="add_category_title">Agregar Nueva Categoría</string>
-    <string name="category_nombre">Nombre</string>
-    <string name="category_descripcion">Descripción</string>
-    <string name="add_event_title">Agregar Nuevo Evento</string>
-    <string name="event_nombre">Nombre</string>
-    <string name="event_tipo">Tipo</string>
-    <string name="event_categoria">Categoría</string>
-    <string name="event_fecha">Fecha</string>
-    <string name="save_button">GUARDAR</string>
+    <string name="home_title">Event Master</string>
+    <string name="categories_label">Categorías</string>
+    <string name="add_category_desc">Agregar categoría</string>
+    <string name="add_event_desc">Agregar evento</string>
+    <string name="back_button">Volver</string>
+    <string name="new_event_title">Nuevo Evento</string>
+    <string name="event_name_label">Nombre del evento</string>
+    <string name="event_date_hint">Fecha (ej: 12 Dic 2024)</string>
+    <string name="save_event_button">Guardar Evento</string>
+    <string name="new_category_title">Nueva Categoría</string>
+    <string name="category_name_label">Nombre de la categoría</string>
+    <string name="category_description_label">Descripción</string>
+    <string name="save_category_button">Guardar Categoría</string>
+    <string name="event_not_found">Evento no encontrado</string>
+    <string name="event_type_prefix">Tipo: %1$s</string>
+    <string name="event_date_prefix">Fecha: %1$s</string>
+    <string name="event_info_format">%1$s • %2$s</string>
+    <string name="action_add">Agregar</string>
     <string name="error_required">Campo vacío no permitido</string>
-    <string name="tipo_concierto">Conciertos</string>
-    <string name="tipo_conferencia">Conferencias</string>
-    <string name="tipo_taller">Talleres</string>
+
+    <!-- Tipos de eventos y Categorías iniciales (Mock Data) -->
+    <string name="category_music">Música</string>
+    <string name="category_sports">Deportes</string>
+    <string name="category_tech">Tecnología</string>
+    <string name="type_concert">Concierto</string>
+    <string name="type_conference">Conferencia</string>
+    <string name="type_workshop">Taller</string>
+
+    <!-- Otros -->
+    <string name="event_categoria">Categoría</string>
+    <string name="event_tipo">Tipo</string>
     <string name="select_option">Seleccionar opción</string>
 </resources>

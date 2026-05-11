@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,7 +40,10 @@ fun CategoryEventsScreen(
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 shape = RoundedCornerShape(50)
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Event")
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_event_desc)
+                )
             }
         }
     ) { paddingValues ->
@@ -61,7 +65,11 @@ fun CategoryEventsScreen(
                     ),
                     modifier = Modifier.align(Alignment.TopStart).height(36.dp)
                 ) {
-                    Text("Volver", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        text = stringResource(R.string.back_button),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
             }
 
@@ -71,7 +79,7 @@ fun CategoryEventsScreen(
 
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = "Logo Small",
+                contentDescription = stringResource(R.string.app_name),
                 modifier = Modifier.size(100.dp)
             )
 
