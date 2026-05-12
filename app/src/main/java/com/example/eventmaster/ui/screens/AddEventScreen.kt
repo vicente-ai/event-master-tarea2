@@ -28,6 +28,7 @@ fun AddEventScreen(
     var selectedType by remember { mutableStateOf(viewModel.eventTypes.firstOrNull().orEmpty()) }
     var nombreError by remember { mutableStateOf(false) }
     var fechaError by remember { mutableStateOf(false) }
+    var typeError by remember { mutableStateOf(false) }
     var expanded by remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
@@ -59,6 +60,7 @@ fun AddEventScreen(
                 },
                 labelRes = R.string.event_name_label,
                 isError = nombreError,
+                errorRes = R.string.error_min_length_name,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -84,12 +86,16 @@ fun AddEventScreen(
 
             ValidatedDropdown(
                 value = selectedType,
-                onValueChange = { selectedType = it },
+                onValueChange = {
+                    selectedType = it
+                    typeError = false
+                },
                 labelRes = R.string.event_tipo,
                 options = viewModel.eventTypes,
                 expanded = expanded,
                 onExpandedChange = { expanded = it },
-                isError = selectedType.isBlank(),
+                isError = typeError,
+                errorRes = R.string.error_select_type,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -103,6 +109,7 @@ fun AddEventScreen(
                 },
                 labelRes = R.string.event_date_hint,
                 isError = fechaError,
+                errorRes = R.string.error_min_length_date,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -110,12 +117,13 @@ fun AddEventScreen(
 
             Button(
                 onClick = {
-                    val isNombreValid = nombre.isNotBlank()
-                    val isFechaValid = fecha.isNotBlank()
+                    val isNombreValid = nombre.isNotBlank() && nombre.length >= 2
+                    val isFechaValid = fecha.isNotBlank() && fecha.length >= 5
                     val isTypeValid = selectedType.isNotBlank()
 
                     nombreError = !isNombreValid
                     fechaError = !isFechaValid
+                    typeError = !isTypeValid
 
                     if (isNombreValid && isFechaValid && isTypeValid) {
                         viewModel.addEvent(nombre, categoryName, selectedType, fecha)

@@ -22,6 +22,7 @@ fun AddCategoryScreen(
     var nombre by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var nombreError by remember { mutableStateOf(false) }
+    var descripcionError by remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
         Column(
@@ -52,31 +53,37 @@ fun AddCategoryScreen(
                 },
                 labelRes = R.string.category_name_label,
                 isError = nombreError,
+                errorRes = R.string.error_min_length_name,
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            OutlinedTextField(
+            ValidatedTextField(
                 value = descripcion,
-                onValueChange = { descripcion = it },
-                label = { Text(stringResource(R.string.category_description_label)) },
-                modifier = Modifier.fillMaxWidth(),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
-                )
+                onValueChange = {
+                    descripcion = it
+                    descripcionError = false
+                },
+                labelRes = R.string.category_description_label,
+                isError = descripcionError,
+                errorRes = R.string.error_min_length_description,
+                modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
                 onClick = {
-                    if (nombre.isNotBlank()) {
+                    val isNombreValid = nombre.isNotBlank() && nombre.length >= 2
+                    val isDescripcionValid = descripcion.isEmpty() || descripcion.length >= 3
+
+                    nombreError = !isNombreValid
+                    descripcionError = !isDescripcionValid
+
+                    if (isNombreValid && isDescripcionValid) {
                         viewModel.addCategory(nombre)
                         onBack()
-                    } else {
-                        nombreError = true
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),

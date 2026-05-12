@@ -19,6 +19,10 @@
     <string name="event_info_format">%1$s • %2$s</string>
     <string name="action_add">Agregar</string>
     <string name="error_required">Campo vacío no permitido</string>
+    <string name="error_min_length_name">El nombre debe tener al menos 2 caracteres</string>
+    <string name="error_min_length_date">La fecha debe tener al menos 5 caracteres (ej: 12 Dic)</string>
+    <string name="error_min_length_description">La descripción debe tener al menos 3 caracteres si se completa</string>
+    <string name="error_select_type">Selecciona un tipo de evento</string>
 
     <!-- Tipos de eventos y Categorías iniciales (Mock Data) -->
     <string name="category_music">Música</string>

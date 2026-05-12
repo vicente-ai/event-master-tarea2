@@ -36,7 +36,8 @@ fun ValidatedTextField(
     onValueChange: (String) -> Unit,
     labelRes: Int,
     isError: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    errorRes: Int = R.string.error_required
 ) {
     OutlinedTextField(
         value = value,
@@ -45,7 +46,7 @@ fun ValidatedTextField(
         isError = isError,
         supportingText = {
             if (isError) {
-                Text(stringResource(R.string.error_required))
+                Text(stringResource(errorRes))
             }
         },
         modifier = modifier.fillMaxWidth()
@@ -63,7 +64,8 @@ fun ValidatedDropdown(
     expanded: Boolean,
     onExpandedChange: (Boolean) -> Unit,
     isError: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    errorRes: Int = R.string.error_required
 ) {
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -79,7 +81,7 @@ fun ValidatedDropdown(
             isError = isError,
             supportingText = {
                 if (isError) {
-                    Text(stringResource(R.string.error_required))
+                    Text(stringResource(errorRes))
                 }
             },
             modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth()
